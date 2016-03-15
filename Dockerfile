@@ -32,11 +32,10 @@ RUN curl -SLO "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-
   && tar -xJf "node-v$NODE_VERSION-linux-x64.tar.xz" -C /usr/local --strip-components=1 \
   && rm "node-v$NODE_VERSION-linux-x64.tar.xz" SHASUMS256.txt.asc
 
-# Creating volume for project
+# use changes to package.json to force Docker not to use the cache
+# when we change our application's nodejs dependencies:
 RUN mkdir -p /var/www
-COPY ./server/package.json /var/www/package.json
-RUN cd /var/www; npm install
 
-# Entery point
-USER root
 EXPOSE 3000
+VOLUME ["/var/www/"]
+CMD ["sh", "/var/www/entrypoint.sh"]

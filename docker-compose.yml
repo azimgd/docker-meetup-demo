@@ -8,7 +8,6 @@ server:
     - redis
   environment:
     TERM: xterm
-  command: ["node", "/var/www/index.js"]
 
 redis:
   image: redis
